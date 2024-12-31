@@ -1,8 +1,13 @@
-import Background from "@/assets/login2.png";
-import Victory from "@/assets/victory.svg";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Background from "../assets/login2.png";
+import Victory from "../assets/victory.svg";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../components/ui/tabs";
 import { useState } from "react";
 
 const Auth = () => {

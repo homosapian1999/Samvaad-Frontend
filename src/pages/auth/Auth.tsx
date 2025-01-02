@@ -11,7 +11,7 @@ import {
 } from "../../components/ui/tabs";
 import { useState } from "react";
 import { apiClient } from "@/libs/auth-client";
-import { SIGNUP_ROUTE } from "@/utils/constants";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -34,15 +34,52 @@ const Auth = () => {
     return true;
   };
 
-  const handleLogin = () => {};
+  const validateLogin = () => {
+    if (!email.length) {
+      toast.error("Email is required");
+      return false;
+    }
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return false;
+    }
+    return true;
+  };
+
+  const handleLogin = async () => {
+    if (validateLogin()) {
+      try {
+        const response = await apiClient.post(
+          LOGIN_ROUTE,
+          {
+            email,
+            password,
+          },
+          { withCredentials: true }
+        );
+        if (response.data.status) {
+          toast.success(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+        toast.error("Error While Logging In");
+      }
+    } else {
+      console.log("Login validation failed.");
+    }
+  };
   const handleSignUp = async () => {
     if (validateSignUp()) {
       try {
-        const response = await apiClient.post(SIGNUP_ROUTE, {
-          email,
-          password,
-          confirmPassword,
-        });
+        const response = await apiClient.post(
+          SIGNUP_ROUTE,
+          {
+            email,
+            password,
+            confirmPassword,
+          },
+          { withCredentials: true }
+        );
         if (response.data.status) {
           toast.success(response.data.message);
         }

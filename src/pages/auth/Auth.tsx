@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import Background from "../../assets/login2.png";
 import Victory from "../../assets/victory.svg";
 import { Button } from "../../components/ui/button";
@@ -9,14 +10,50 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { useState } from "react";
+import { apiClient } from "@/libs/auth-client";
+import { SIGNUP_ROUTE } from "@/utils/constants";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const validateSignUp = () => {
+    if (!email.length) {
+      toast.error("Email is required");
+      return false;
+    }
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return false;
+    }
+    return true;
+  };
+
   const handleLogin = () => {};
-  const handleSignUp = () => {};
+  const handleSignUp = async () => {
+    if (validateSignUp()) {
+      try {
+        const response = await apiClient.post(SIGNUP_ROUTE, {
+          email,
+          password,
+          confirmPassword,
+        });
+        if (response.data.status) {
+          toast.success(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error during sign-up:", error);
+        toast.error("Error While Signing Up");
+      }
+    } else {
+      console.log("Sign-up validation failed.");
+    }
+  };
 
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center">

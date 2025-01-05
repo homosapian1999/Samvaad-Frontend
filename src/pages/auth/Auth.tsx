@@ -10,15 +10,17 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { useState } from "react";
-import { apiClient } from "@/libs/auth-client";
+import { apiClient } from "@/lib/auth-client";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useNavigate } from "react-router-dom";
+import { useAppStore } from "../../store/store";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const { setUserInfo } = useAppStore();
 
   const validateSignUp = () => {
     if (!email.length) {
@@ -61,15 +63,15 @@ const Auth = () => {
         );
         if (response.data.status) {
           toast.success(response.data.message);
+          setUserInfo(response.data);
           if (response.data.isProfileComplete) navigate("/chat");
           else navigate("/profile");
         }
       } catch (error) {
-        console.error("Error during login:", error);
-        toast.error("Error While Logging In");
+        toast.error("Error While Logging In" + error);
       }
     } else {
-      console.log("Login validation failed.");
+      toast.error("Login validation failed.");
     }
   };
   const handleSignUp = async () => {
@@ -86,14 +88,14 @@ const Auth = () => {
         );
         if (response.data.status) {
           toast.success(response.data.message);
+          setUserInfo(response.data.user);
           navigate("/profile");
         }
       } catch (error) {
-        console.error("Error during sign-up:", error);
-        toast.error("Error While Signing Up");
+        toast.error("Error While Signing Up. " + error);
       }
     } else {
-      console.log("Sign-up validation failed.");
+      toast.error("Sign-up validation failed.");
     }
   };
 

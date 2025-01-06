@@ -1,11 +1,11 @@
 interface UserInfo {
-  firstName: string;
-  lastName: string;
-  email: string;
-  image: string;
-  color: string;
-  token: string;
-  isProfileComplete: boolean;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  image?: string;
+  color?: number;
+  token?: string;
+  profileSetup?: boolean;
 }
 
 export interface AuthSlice {

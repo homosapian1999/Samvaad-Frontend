@@ -31,7 +31,7 @@ const App = () => {
           withCredentials: true,
         });
         const data = response.data;
-        if (data.status) setUserInfo(data);
+        if (response.status) setUserInfo(data);
       } catch (error) {
         setLoading(false);
         toast.error("Error while fetching user info. " + error);

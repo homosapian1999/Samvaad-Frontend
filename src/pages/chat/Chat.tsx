@@ -7,7 +7,7 @@ const Chat = () => {
   const { userInfo } = useAppStore();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!userInfo?.isProfileComplete) {
+    if (!userInfo?.profileSetup) {
       toast("Please complete your profile first");
       navigate("/profile");
     }

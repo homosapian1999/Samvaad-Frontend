@@ -9,13 +9,13 @@ interface UserInfo {
 }
 
 export interface AuthSlice {
-  userInfo?: UserInfo;
-  setUserInfo: (userInfo: UserInfo) => void;
+  userInfo?: UserInfo | null;
+  setUserInfo: (userInfo: UserInfo | null) => void;
 }
 
 export const createAuthSlice = (
   set: (partial: Partial<AuthSlice>) => void
 ): AuthSlice => ({
   userInfo: undefined,
-  setUserInfo: (userInfo: UserInfo) => set({ userInfo }),
+  setUserInfo: (userInfo: UserInfo | null) => set({ userInfo }),
 });

@@ -92,6 +92,7 @@ const Profile = () => {
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    // Retest the add and delete image
     const file = event.target.files?.[0];
     if (file) {
       const formData = new FormData();

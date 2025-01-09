@@ -15,6 +15,14 @@ export interface ChatSlice {
   selectedChatData: UserInfo | undefined;
   selectedChatMessages: MessagesType[];
   directMessagesContacts: UserInfo[];
+  isUploading: boolean;
+  isDownloading: boolean;
+  fileUploadProgress: number;
+  fileDownloadProgress: number;
+  setIsUploading: (isUploading: boolean) => void;
+  setIsDownloading: (isDownloading: boolean) => void;
+  setFileUploadProgress: (fileUploadProgress: number) => void;
+  setFileDownloadProgress: (fileDownloadProgress: number) => void;
   setDirectMessagesContacts: (directMessagesContacts: UserInfo[]) => void;
   setSelectedChatType: (selectedChatType: string | undefined) => void;
   setSelectedChatData: (selectedChatData: UserInfo | undefined) => void;
@@ -31,6 +39,16 @@ export const createChatSlice = (
   selectedChatData: undefined,
   selectedChatMessages: [],
   directMessagesContacts: [],
+  isUploading: false,
+  isDownloading: false,
+  fileUploadProgress: 0,
+  fileDownloadProgress: 0,
+  setIsUploading: (isUploading: boolean) => set({ isUploading }),
+  setIsDownloading: (isDownloading: boolean) => set({ isDownloading }),
+  setFileUploadProgress: (fileUploadProgress: number) =>
+    set({ fileUploadProgress }),
+  setFileDownloadProgress: (fileDownloadProgress: number) =>
+    set({ fileDownloadProgress }),
   setDirectMessagesContacts: (directMessagesContacts) =>
     set({ directMessagesContacts }),
   setSelectedChatType: (selectedChatType) => set({ selectedChatType }),

@@ -1,3 +1,5 @@
+import { UserInfo } from "@/pages/chat/components/contacts-container/components/contact-dm/ContactDm";
+import { MessagesType } from "@/store/slices/chat-slice";
 import { useAppStore } from "@/store/store";
 import { SERVER_HOST } from "@/utils/constants";
 import { createContext, useContext, useEffect, useRef } from "react";
@@ -15,21 +17,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const socket = useRef<ReturnType<typeof io> | null>(null);
   const { userInfo } = useAppStore();
 
-  const { selectedChatData, selectedChatType, addMessage } = useAppStore();
-
-  const handleReceiveMessage = (message: {
-    sender: { id: number | undefined };
-    recipient: { id: number | undefined };
-  }) => {
-    if (
-      selectedChatType !== undefined &&
-      (selectedChatData?.id === message.sender.id ||
-        selectedChatData?.id === message.recipient.id)
-    ) {
-      addMessage(message);
-    }
-  };
-
   useEffect(() => {
     if (userInfo) {
       socket.current = io(SERVER_HOST, {
@@ -40,6 +27,19 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         console.log("Connected to socket server");
       });
 
+      const handleReceiveMessage = (message: MessagesType) => {
+        const { selectedChatData, selectedChatType, addMessage } =
+          useAppStore.getState();
+        if (
+          selectedChatType !== undefined &&
+          (selectedChatData?.id === (message.sender as UserInfo).id ||
+            selectedChatData?.id === (message.recipient as UserInfo).id)
+        ) {
+          console.log(message);
+          addMessage(message);
+          console.log(addMessage);
+        }
+      };
       socket.current.on("receiveMessage", handleReceiveMessage);
 
       socket.current.on("connect_error", (err) => {

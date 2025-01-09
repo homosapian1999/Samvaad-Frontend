@@ -1,15 +1,24 @@
 import { UserInfo } from "@/pages/chat/components/contacts-container/components/contact-dm/ContactDm";
 
+export type MessagesType = {
+  id: number;
+  content: string;
+  fileUrl: string;
+  messageType: string;
+  sender: UserInfo | number;
+  recipient: UserInfo | number;
+  timestamp: Date;
+};
+
 export interface ChatSlice {
   selectedChatType: string | undefined;
   selectedChatData: UserInfo | undefined;
-  selectedChatMessages: string[];
+  selectedChatMessages: MessagesType[];
   setSelectedChatType: (selectedChatType: string | undefined) => void;
   setSelectedChatData: (selectedChatData: UserInfo | undefined) => void;
-  setSelectedChatMessages: (selectedChatMessages: string[]) => void;
+  setSelectedChatMessages: (selectedChatMessages: MessagesType[]) => void;
   closeChat: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  addMessage: (message: any) => void;
+  addMessage: (message: MessagesType) => void;
 }
 
 export const createChatSlice = (
@@ -30,8 +39,7 @@ export const createChatSlice = (
       selectedChatMessages: [],
     }),
   addMessage: (message) => {
-    const selectedChatMessages = get().selectedChatMessages;
-    const selectedChatType = get().selectedChatType;
+    const { selectedChatMessages, selectedChatType } = get();
     set({
       selectedChatMessages: [
         ...selectedChatMessages,
@@ -40,11 +48,11 @@ export const createChatSlice = (
           recipient:
             selectedChatType === "channel"
               ? message.recipient
-              : message.recipient.id,
+              : (message.recipient as UserInfo).id,
           sender:
             selectedChatType === "channel"
-              ? message.recipient
-              : message.recipient.id,
+              ? message.sender
+              : (message.sender as UserInfo).id,
         },
       ],
     });

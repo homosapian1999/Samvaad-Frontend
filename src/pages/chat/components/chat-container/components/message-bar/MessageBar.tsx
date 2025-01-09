@@ -78,7 +78,7 @@ const MessageBar = () => {
         </div>
       </div>
       <button
-        className="bg-[]#8417ff] rounded-md flex items-center justify-center p-5  focus:border-none focus:outline-none focus:text-white duration-300 transition-all hover:bg[#741bda] focus:bg[#741bda]"
+        className="bg-[#8417ff] rounded-md flex items-center justify-center p-5  focus:border-none focus:outline-none focus:text-white duration-300 transition-all hover:bg[#741bda] focus:bg[#741bda]"
         onClick={handleSendMessage}
       >
         <IoSend className="text-2xl" />

@@ -12,3 +12,6 @@ export const LOGOUT_ROUTE = `${AUTH_ROUTES}/logout`;
 
 export const CONTACTS_ROUTES = "/profile";
 export const SEARCH_ROUTE = `${CONTACTS_ROUTES}/search-contacts`;
+
+export const CHAT_ROUTES = "/chat";
+export const GET_MESSAGES = `${CHAT_ROUTES}/get-messages`;

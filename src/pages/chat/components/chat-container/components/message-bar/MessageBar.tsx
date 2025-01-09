@@ -46,6 +46,7 @@ const MessageBar = () => {
         fileUrl: undefined,
       });
     }
+    setMessage("");
   };
   return (
     <div className="h-[10vh] bg-[#1c1d25] flex justify-center items-center px-8 mb-6 gap-6">

@@ -14,6 +14,8 @@ export interface ChatSlice {
   selectedChatType: string | undefined;
   selectedChatData: UserInfo | undefined;
   selectedChatMessages: MessagesType[];
+  directMessagesContacts: UserInfo[];
+  setDirectMessagesContacts: (directMessagesContacts: UserInfo[]) => void;
   setSelectedChatType: (selectedChatType: string | undefined) => void;
   setSelectedChatData: (selectedChatData: UserInfo | undefined) => void;
   setSelectedChatMessages: (selectedChatMessages: MessagesType[]) => void;
@@ -28,6 +30,9 @@ export const createChatSlice = (
   selectedChatType: undefined,
   selectedChatData: undefined,
   selectedChatMessages: [],
+  directMessagesContacts: [],
+  setDirectMessagesContacts: (directMessagesContacts) =>
+    set({ directMessagesContacts }),
   setSelectedChatType: (selectedChatType) => set({ selectedChatType }),
   setSelectedChatData: (selectedChatData) => set({ selectedChatData }),
   setSelectedChatMessages: (selectedChatMessages) =>

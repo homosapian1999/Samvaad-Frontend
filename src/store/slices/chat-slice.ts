@@ -8,11 +8,13 @@ export interface ChatSlice {
   setSelectedChatData: (selectedChatData: UserInfo | undefined) => void;
   setSelectedChatMessages: (selectedChatMessages: string[]) => void;
   closeChat: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  addMessage: (message: any) => void;
 }
 
 export const createChatSlice = (
-  set: (state: Partial<ChatSlice>) => void
-  //   get: () => ChatSlice
+  set: (state: Partial<ChatSlice>) => void,
+  get: () => ChatSlice
 ): ChatSlice => ({
   selectedChatType: undefined,
   selectedChatData: undefined,
@@ -27,4 +29,24 @@ export const createChatSlice = (
       selectedChatData: undefined,
       selectedChatMessages: [],
     }),
+  addMessage: (message) => {
+    const selectedChatMessages = get().selectedChatMessages;
+    const selectedChatType = get().selectedChatType;
+    set({
+      selectedChatMessages: [
+        ...selectedChatMessages,
+        {
+          ...message,
+          recipient:
+            selectedChatType === "channel"
+              ? message.recipient
+              : message.recipient.id,
+          sender:
+            selectedChatType === "channel"
+              ? message.recipient
+              : message.recipient.id,
+        },
+      ],
+    });
+  },
 });

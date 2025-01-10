@@ -1,4 +1,3 @@
-// import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,11 +8,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import MultipleSelector from "@/components/ui/multi-selector";
-// import { ScrollArea } from "@/components/ui/scroll-area";
 import { apiClient } from "@/lib/auth-client";
-// import { animationDefaultOptions, getColor } from "@/lib/utils";
-// import { useAppStore } from "@/store/store";
-import { ALL_CONTACTS } from "@/utils/constants";
+import { useAppStore } from "@/store/store";
+import { ALL_CONTACTS, CREATE_CHANNEL_ROUTE } from "@/utils/constants";
 import {
   Tooltip,
   TooltipContent,
@@ -22,7 +19,6 @@ import {
 } from "@radix-ui/react-tooltip";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-// import Lottie from "react-lottie";
 
 export type UserInfo = {
   id: number;
@@ -39,10 +35,9 @@ export type ContactsType = {
 };
 
 const CreateChannel = () => {
-  //   const { setSelectedChatData, setSelectedChatType } = useAppStore();
+  const { addChannel } = useAppStore();
   const [newChannelModal, setNewChannelModal] = useState(false);
   const [searchedContacts, setSearchedContacts] = useState<ContactsType[]>([]);
-  //   const [allContacts, setAllContacts] = useState<UserInfo[]>([]);
   const [selectedContacts, setSelectedContacts] = useState<ContactsType[]>([]);
   const [channelName, setChannelName] = useState("");
 
@@ -58,7 +53,24 @@ const CreateChannel = () => {
     getData();
   }, []);
 
-  const createChannel = async () => {};
+  const createChannel = async () => {
+    if (channelName.length > 0 && selectedContacts.length > 0) {
+      const response = await apiClient.post(
+        CREATE_CHANNEL_ROUTE,
+        {
+          name: channelName,
+          members: searchedContacts.map((contact) => contact.value),
+        },
+        { withCredentials: true }
+      );
+      if (response.status) {
+        setChannelName("");
+        setSelectedContacts([]);
+        setNewChannelModal(false);
+        addChannel(response.data.chanel);
+      }
+    }
+  };
 
   return (
     <>

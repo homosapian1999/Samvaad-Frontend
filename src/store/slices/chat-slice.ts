@@ -10,6 +10,15 @@ export type MessagesType = {
   timestamp: Date;
 };
 
+export type ChannelType = {
+  id: number;
+  channelName: string;
+  members: UserInfo[];
+  admin: UserInfo;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export interface ChatSlice {
   selectedChatType: string | undefined;
   selectedChatData: UserInfo | undefined;
@@ -19,6 +28,8 @@ export interface ChatSlice {
   isDownloading: boolean;
   fileUploadProgress: number;
   fileDownloadProgress: number;
+  channels: ChannelType[];
+  setChannels: (channels: ChannelType[]) => void;
   setIsUploading: (isUploading: boolean) => void;
   setIsDownloading: (isDownloading: boolean) => void;
   setFileUploadProgress: (fileUploadProgress: number) => void;
@@ -27,6 +38,7 @@ export interface ChatSlice {
   setSelectedChatType: (selectedChatType: string | undefined) => void;
   setSelectedChatData: (selectedChatData: UserInfo | undefined) => void;
   setSelectedChatMessages: (selectedChatMessages: MessagesType[]) => void;
+  addChannel: (channel: ChannelType) => void;
   closeChat: () => void;
   addMessage: (message: MessagesType) => void;
 }
@@ -43,6 +55,8 @@ export const createChatSlice = (
   isDownloading: false,
   fileUploadProgress: 0,
   fileDownloadProgress: 0,
+  channels: [],
+  setChannels: (channels: ChannelType[]) => set({ channels }),
   setIsUploading: (isUploading: boolean) => set({ isUploading }),
   setIsDownloading: (isDownloading: boolean) => set({ isDownloading }),
   setFileUploadProgress: (fileUploadProgress: number) =>
@@ -55,6 +69,10 @@ export const createChatSlice = (
   setSelectedChatData: (selectedChatData) => set({ selectedChatData }),
   setSelectedChatMessages: (selectedChatMessages) =>
     set({ selectedChatMessages }),
+  addChannel: (chanel: ChannelType) => {
+    const channels = get().channels;
+    set({ channels: [chanel, ...channels] });
+  },
   closeChat: () =>
     set({
       selectedChatType: undefined,

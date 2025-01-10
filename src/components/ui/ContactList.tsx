@@ -3,12 +3,13 @@ import { useAppStore } from "@/store/store";
 import { Avatar, AvatarImage } from "./avatar";
 import { HOST } from "@/utils/constants";
 import { getColor } from "@/lib/utils";
+import { ChannelType } from "@/store/slices/chat-slice";
 
 const ContactList = ({
   contacts,
   isChannel = false,
 }: {
-  contacts: UserInfo[];
+  contacts: UserInfo[] | ChannelType[];
   isChannel: boolean;
 }) => {
   const {
@@ -30,7 +31,7 @@ const ContactList = ({
 
   return (
     <div className="mt-5">
-      {contacts.map((contact) => (
+      {(contacts as UserInfo[]).map((contact) => (
         <div
           key={contact.id}
           className={`pl-10 py-2 transition-all duration-300 cursor-pointer ${
@@ -72,9 +73,13 @@ const ContactList = ({
               </div>
             )}
             {isChannel ? (
-              <span>{contact.firstName} </span>
+              <span>{(contact as ChannelType).channelName} </span>
             ) : (
-              <span>{`${contact.firstName} ${contact.lastName}`} </span>
+              <span>
+                {`${(contact as UserInfo).firstName} ${
+                  (contact as UserInfo).lastName
+                }`}{" "}
+              </span>
             )}
           </div>
         </div>

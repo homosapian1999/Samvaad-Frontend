@@ -9,6 +9,7 @@ import { Socket } from "socket.io-client";
 
 const SocketContext = createContext<Socket | null>(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useSocket = () => {
   return useContext(SocketContext);
 };
@@ -28,19 +29,51 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       const handleReceiveMessage = (message: MessagesType) => {
-        const { selectedChatData, selectedChatType, addMessage } =
-          useAppStore.getState();
+        const {
+          selectedChatData,
+          selectedChatType,
+          addMessage,
+          addContactsInDMContacts,
+        } = useAppStore.getState();
         if (
           selectedChatType !== undefined &&
           (selectedChatData?.id === (message.sender as UserInfo).id ||
             selectedChatData?.id === (message.recipient as UserInfo).id)
         ) {
-          console.log(message);
           addMessage(message);
-          console.log(addMessage);
         }
+        addContactsInDMContacts(message);
       };
+
+      const handleReceiveChannelMessage = (message: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        channelId?: any;
+        id?: number;
+        content?: string;
+        fileUrl?: string;
+        messageType?: string;
+        sender?: number | UserInfo;
+        recipient?: number | UserInfo;
+        timestamp?: Date;
+      }) => {
+        const {
+          selectedChatData,
+          selectedChatType,
+          addMessage,
+          addChannelInChannelList,
+        } = useAppStore.getState();
+        if (
+          selectedChatType !== undefined &&
+          selectedChatData?.id === message.channelId &&
+          message.id !== undefined
+        ) {
+          addMessage(message as MessagesType);
+        }
+        addChannelInChannelList(message as MessagesType);
+      };
+
       socket.current.on("receiveMessage", handleReceiveMessage);
+      socket.current.on("receive-channel-message", handleReceiveChannelMessage);
 
       socket.current.on("connect_error", (err) => {
         console.error("Connection error: ", err);

@@ -8,6 +8,16 @@ export type MessagesType = {
   sender: UserInfo | number;
   recipient: UserInfo | number;
   timestamp: Date;
+  channelId: number;
+};
+
+export type ChannelType = {
+  id: number;
+  channelName: string;
+  members: UserInfo[];
+  admin: UserInfo;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export interface ChatSlice {
@@ -19,6 +29,8 @@ export interface ChatSlice {
   isDownloading: boolean;
   fileUploadProgress: number;
   fileDownloadProgress: number;
+  channels: ChannelType[];
+  setChannels: (channels: ChannelType[]) => void;
   setIsUploading: (isUploading: boolean) => void;
   setIsDownloading: (isDownloading: boolean) => void;
   setFileUploadProgress: (fileUploadProgress: number) => void;
@@ -27,8 +39,11 @@ export interface ChatSlice {
   setSelectedChatType: (selectedChatType: string | undefined) => void;
   setSelectedChatData: (selectedChatData: UserInfo | undefined) => void;
   setSelectedChatMessages: (selectedChatMessages: MessagesType[]) => void;
+  addChannel: (channel: ChannelType) => void;
   closeChat: () => void;
   addMessage: (message: MessagesType) => void;
+  addChannelInChannelList: (message: MessagesType) => void;
+  // addContactsInDMContacts: (message: MessagesType) => void;
 }
 
 export const createChatSlice = (
@@ -43,6 +58,8 @@ export const createChatSlice = (
   isDownloading: false,
   fileUploadProgress: 0,
   fileDownloadProgress: 0,
+  channels: [],
+  setChannels: (channels: ChannelType[]) => set({ channels }),
   setIsUploading: (isUploading: boolean) => set({ isUploading }),
   setIsDownloading: (isDownloading: boolean) => set({ isDownloading }),
   setFileUploadProgress: (fileUploadProgress: number) =>
@@ -55,13 +72,17 @@ export const createChatSlice = (
   setSelectedChatData: (selectedChatData) => set({ selectedChatData }),
   setSelectedChatMessages: (selectedChatMessages) =>
     set({ selectedChatMessages }),
+  addChannel: (channel: ChannelType) => {
+    const channels = get().channels;
+    set({ channels: [channel, ...channels] });
+  },
   closeChat: () =>
     set({
       selectedChatType: undefined,
       selectedChatData: undefined,
       selectedChatMessages: [],
     }),
-  addMessage: (message) => {
+  addMessage: (message: MessagesType) => {
     const { selectedChatMessages, selectedChatType } = get();
     set({
       selectedChatMessages: [
@@ -80,4 +101,33 @@ export const createChatSlice = (
       ],
     });
   },
+  addChannelInChannelList: (message: MessagesType) => {
+    const channels = get().channels;
+    const data = channels.find((channel) => channel.id === message.channelId);
+    const index = channels.findIndex(
+      (channel) => channel.id === message.channelId
+    );
+    if (index !== -1 && index !== undefined) {
+      channels.splice(index, 1);
+      channels.unshift(data as ChannelType);
+    }
+  },
+  // addContactsInDMContacts: (message: MessagesType) => {
+  //   const userId = get().userInfo?.id;
+  //   const fromId =
+  //     message.sender === userId ? message.recipient : message.sender;
+  //   const fromData =
+  //     message.sender === userId ? message.recipient : message.sender;
+  //   const dmContacts = get().directMessagesContacts;
+  //   const data = dmContacts.find((contact) => contact.id === fromId);
+  //   const index = dmContacts.findIndex((contact) => contact.id === fromId);
+
+  //   if (index !== -1 && index !== undefined) {
+  //     dmContacts.splice(index, 1);
+  //     dmContacts.unshift(data as UserInfo);
+  //   } else {
+  //     dmContacts.unshift(fromData as UserInfo);
+  //   }
+  //   set({ directMessagesContacts: dmContacts });
+  // },
 });

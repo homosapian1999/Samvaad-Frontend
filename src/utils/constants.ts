@@ -20,3 +20,4 @@ export const GET_MESSAGES = `${CHAT_ROUTES}/get-messages`;
 export const UPLOAD_FILE = `${CHAT_ROUTES}/upload-file`;
 export const CREATE_CHANNEL_ROUTE = `${CHAT_ROUTES}/create-channel`;
 export const GET_CHANNELS_ROUTE = `${CHAT_ROUTES}/get-channels`;
+export const GET_CHANNEL_MESSAGES_ROUTE = `${CHAT_ROUTES}/get-channel-messages`;

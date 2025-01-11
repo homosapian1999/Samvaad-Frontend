@@ -29,8 +29,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       const handleReceiveMessage = (message: MessagesType) => {
-        const { selectedChatData, selectedChatType, addMessage } =
-          useAppStore.getState();
+        const {
+          selectedChatData,
+          selectedChatType,
+          addMessage,
+          addContactsInDMContacts,
+        } = useAppStore.getState();
         if (
           selectedChatType !== undefined &&
           (selectedChatData?.id === (message.sender as UserInfo).id ||
@@ -38,9 +42,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         ) {
           addMessage(message);
         }
+        addContactsInDMContacts(message);
       };
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const handleReceiveChannelMessage = (message: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         channelId?: any;
@@ -52,8 +56,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         recipient?: number | UserInfo;
         timestamp?: Date;
       }) => {
-        const { selectedChatData, selectedChatType, addMessage } =
-          useAppStore.getState();
+        const {
+          selectedChatData,
+          selectedChatType,
+          addMessage,
+          addChannelInChannelList,
+        } = useAppStore.getState();
         if (
           selectedChatType !== undefined &&
           selectedChatData?.id === message.channelId &&
@@ -61,6 +69,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         ) {
           addMessage(message as MessagesType);
         }
+        addChannelInChannelList(message as MessagesType);
       };
 
       socket.current.on("receiveMessage", handleReceiveMessage);

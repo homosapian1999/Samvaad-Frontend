@@ -81,7 +81,6 @@ const MessageBar = () => {
       const formData = new FormData();
       formData.append("file", file);
       setIsUploading(true);
-      console.log(file);
       const response = await apiClient.post(UPLOAD_FILE, formData, {
         withCredentials: true,
         onUploadProgress: (data) => {

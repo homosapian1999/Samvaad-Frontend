@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { apiClient } from "@/lib/auth-client";
 import { animationDefaultOptions, getColor } from "@/lib/utils";
 import { useAppStore } from "@/store/store";
-import { HOST, SEARCH_ROUTE } from "@/utils/constants";
+import { SEARCH_ROUTE } from "@/utils/constants";
 import {
   Tooltip,
   TooltipContent,
@@ -109,7 +109,7 @@ const ContactDm = () => {
                       <Avatar className="h-12 w-12 rounded-full overflow-hidden ">
                         {contact?.image ? (
                           <AvatarImage
-                            src={`${HOST}/${contact.image}`}
+                            src={contact.image}
                             alt="profile"
                             className="object-cover w-full h-full bg-black rounded-full"
                           />

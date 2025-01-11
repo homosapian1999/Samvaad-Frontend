@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { apiClient } from "@/lib/auth-client";
 import {
-  HOST,
   PROFILE_IMAGE_ROUTE,
   REMOVE_PROFILE_IMAGE_ROUTE,
   UPDATE_PROFILE_ROUTE,
@@ -34,7 +33,7 @@ const Profile = () => {
       setSelectedColor(userInfo.color as number);
     }
     if (userInfo?.image) {
-      setImage(`${HOST}/${userInfo.image}`);
+      setImage(userInfo.image);
     }
   }, [userInfo]);
 

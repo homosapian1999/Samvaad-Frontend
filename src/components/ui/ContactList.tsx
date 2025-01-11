@@ -1,7 +1,6 @@
 import { UserInfo } from "@/pages/chat/components/contacts-container/components/contact-dm/ContactDm";
 import { useAppStore } from "@/store/store";
 import { Avatar, AvatarImage } from "./avatar";
-import { HOST } from "@/utils/constants";
 import { getColor } from "@/lib/utils";
 import { ChannelType } from "@/store/slices/chat-slice";
 
@@ -46,7 +45,7 @@ const ContactList = ({
               <Avatar className="h-10 w-10 rounded-full overflow-hidden ">
                 {contact?.image ? (
                   <AvatarImage
-                    src={`${HOST}/${contact.image}`}
+                    src={contact.image}
                     alt="profile"
                     className="object-cover w-full h-full bg-black"
                   />

@@ -2,11 +2,7 @@
 import { apiClient } from "@/lib/auth-client";
 import { MessagesType } from "@/store/slices/chat-slice";
 import { useAppStore } from "@/store/store";
-import {
-  GET_CHANNEL_MESSAGES_ROUTE,
-  GET_MESSAGES,
-  SERVER_HOST,
-} from "@/utils/constants";
+import { GET_CHANNEL_MESSAGES_ROUTE, GET_MESSAGES } from "@/utils/constants";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { UserInfo } from "../../../contacts-container/components/contact-dm/ContactDm";
@@ -23,7 +19,7 @@ const MessageContainer = () => {
     selectedChatData,
     selectedChatMessages,
     setSelectedChatMessages,
-    setFileDownloadProgress,
+    // setFileDownloadProgress,
     setIsDownloading,
     userInfo,
   } = useAppStore();
@@ -82,25 +78,35 @@ const MessageContainer = () => {
 
   const downloadFile = async (url: string) => {
     setIsDownloading(true);
-    setFileDownloadProgress(0);
-    const response = await apiClient.get(`${SERVER_HOST}/${url}`, {
-      responseType: "blob",
-      onDownloadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentCompleted = Math.round((loaded * 100) / (total as number));
-        setFileDownloadProgress(percentCompleted);
-      },
-    });
-    const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = urlBlob;
-    link.setAttribute("download", url.split("/").pop() || "downloaded_file");
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.URL.revokeObjectURL(urlBlob);
-    setIsDownloading(false);
-    setFileDownloadProgress(0);
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+        mode: "cors",
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const blob = await response.blob();
+      const urlBlob = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = urlBlob;
+      link.setAttribute("download", url.split("/").pop() || "downloaded_file");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(urlBlob);
+
+      setIsDownloading(false);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+      setIsDownloading(false);
+    }
   };
 
   const renderMessages = () => {
@@ -155,11 +161,7 @@ const MessageContainer = () => {
                   setImageURL(message.fileUrl);
                 }}
               >
-                <img
-                  src={`${SERVER_HOST}/${message.fileUrl}`}
-                  height={300}
-                  width={300}
-                />
+                <img src={message.fileUrl} height={300} width={300} />
               </div>
             ) : (
               <div className="flex items-center justify-center gap-4">
@@ -228,11 +230,7 @@ const MessageContainer = () => {
                   setImageURL(message.fileUrl as string);
                 }}
               >
-                <img
-                  src={`${SERVER_HOST}/${message.fileUrl}`}
-                  height={300}
-                  width={300}
-                />
+                <img src={message.fileUrl} height={300} width={300} />
               </div>
             ) : (
               <div className="flex items-center justify-center gap-4">
@@ -255,7 +253,7 @@ const MessageContainer = () => {
             <Avatar className="h-8 w-8 rounded-full overflow-hidden">
               {message.sender?.image && (
                 <AvatarImage
-                  src={`${SERVER_HOST}/${message.sender.image}`}
+                  src={message.sender.image}
                   alt="profile"
                   className="object-cover w-full h-full bg-black"
                 />
@@ -294,7 +292,7 @@ const MessageContainer = () => {
         <div className="fixed z-[1000] top-0 left-0 h-[100vh] w-[100vw] flex items-center justify-center backdrop-blur-lg flex-col">
           <div>
             <img
-              src={`${SERVER_HOST}/${imageURL}`}
+              src={imageURL as string}
               className="h-[80vh] w-full bg-cover"
             />
           </div>

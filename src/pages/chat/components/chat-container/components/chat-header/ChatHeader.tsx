@@ -2,7 +2,6 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { getColor } from "@/lib/utils";
 import { ChannelType } from "@/store/slices/chat-slice";
 import { useAppStore } from "@/store/store";
-import { HOST } from "@/utils/constants";
 import { RiCloseFill } from "react-icons/ri";
 
 const ChatHeader = () => {
@@ -16,7 +15,7 @@ const ChatHeader = () => {
               <Avatar className="h-12 w-12 rounded-full overflow-hidden ">
                 {selectedChatData?.image ? (
                   <AvatarImage
-                    src={`${HOST}/${selectedChatData.image}`}
+                    src={selectedChatData.image}
                     alt="profile"
                     className="object-cover w-full h-full bg-black"
                   />

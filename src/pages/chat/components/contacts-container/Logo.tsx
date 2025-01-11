@@ -1,7 +1,7 @@
 const Logo = () => {
   return (
     <div className="flex p-5  justify-start items-center gap-2">
-      <svg
+      {/* <svg
         id="logo-38"
         width="78"
         height="32"
@@ -25,8 +25,9 @@ const Logo = () => {
           className="ccompli2"
           fill="#a16ee8"
         ></path>{" "}
-      </svg>
-      <span className="text-3xl font-semibold ">Syncronus</span>
+      </svg> */}
+      <img src="./samvaad.jpg" alt="Samvaad App Logo" width="78" height="32" />
+      <span className="text-3xl font-semibold ">Samvaad</span>
     </div>
   );
 };

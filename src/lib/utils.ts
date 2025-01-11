@@ -18,7 +18,7 @@ export interface GetColor {
 }
 
 export const getColor: GetColor = (color) => {
-  if (color >= 0 && color < colors.length) {
+  if (color && color >= 0 && color < colors.length) {
     return colors[color];
   }
   return colors[0];

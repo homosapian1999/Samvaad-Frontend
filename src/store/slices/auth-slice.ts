@@ -1,9 +1,9 @@
 export interface UserInfo {
-  id: number;
+  id?: number;
   firstName?: string;
   lastName?: string;
   email?: string;
-  image?: string;
+  image?: string | null;
   color?: number;
   token?: string;
   profileSetup?: boolean;

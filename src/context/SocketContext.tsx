@@ -29,12 +29,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       const handleReceiveMessage = (message: MessagesType) => {
-        const {
-          selectedChatData,
-          selectedChatType,
-          addMessage,
-          addContactsInDMContacts,
-        } = useAppStore.getState();
+        const { selectedChatData, selectedChatType, addMessage } =
+          useAppStore.getState();
         if (
           selectedChatType !== undefined &&
           (selectedChatData?.id === (message.sender as UserInfo).id ||
@@ -42,7 +38,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         ) {
           addMessage(message);
         }
-        addContactsInDMContacts(message);
       };
 
       const handleReceiveChannelMessage = (message: {

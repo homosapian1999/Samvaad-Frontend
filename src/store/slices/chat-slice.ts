@@ -92,11 +92,11 @@ export const createChatSlice = (
           recipient:
             selectedChatType === "channel"
               ? message.recipient
-              : (message.recipient as UserInfo).id,
+              : (message.recipient as UserInfo),
           sender:
             selectedChatType === "channel"
               ? message.sender
-              : (message.sender as UserInfo).id,
+              : (message.sender as UserInfo),
         },
       ],
     });

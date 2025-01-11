@@ -86,9 +86,9 @@ const Auth = () => {
           },
           { withCredentials: true }
         );
-        if (response.data.status) {
+        if (response.status) {
           toast.success(response.data.message);
-          setUserInfo(response.data.user);
+          setUserInfo(response.data);
           navigate("/profile");
         }
       } catch (error) {

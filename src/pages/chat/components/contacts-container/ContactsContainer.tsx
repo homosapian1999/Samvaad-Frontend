@@ -56,7 +56,7 @@ const ContactsContainer = () => {
           <Title text="Channels" />
           <CreateChannel />
         </div>
-        {channels?.length && (
+        {channels?.length > 0 && (
           <div className="max-h-[38vh] overflow-y-auto scrollbar-hidden">
             <ContactList contacts={channels} isChannel={true} />
           </div>

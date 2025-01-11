@@ -28,10 +28,10 @@ const Profile = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (userInfo?.profileSetup || userInfo?.firstName) {
+    if (userInfo?.firstName) {
       setFirstName(userInfo?.firstName as string);
       setLastName(userInfo?.lastName as string);
-      setSelectedColor(userInfo?.color as number);
+      setSelectedColor(userInfo.color as number);
     }
     if (userInfo?.image) {
       setImage(`${HOST}/${userInfo.image}`);
@@ -77,7 +77,7 @@ const Profile = () => {
 
   const handleNavigate = () => {
     if (userInfo?.profileSetup) {
-      // navigate("/chat");
+      navigate("/chat");
     } else {
       toast.error("Please complete the profile");
     }
@@ -100,8 +100,12 @@ const Profile = () => {
       const response = await apiClient.post(PROFILE_IMAGE_ROUTE, formData, {
         withCredentials: true,
       });
-      if (response.status) {
-        setUserInfo({ ...userInfo, image: response.data.image });
+      if (response.status && userInfo) {
+        setUserInfo({
+          ...userInfo,
+          image: response.data.image,
+          id: userInfo.id,
+        });
         toast.success("Image Updates Successfully");
       }
       const reader = new FileReader();
@@ -116,8 +120,13 @@ const Profile = () => {
     const response = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE, {
       withCredentials: true,
     });
-    if (response.status) {
-      setUserInfo({ ...userInfo, image: null as unknown as string });
+    if (response.status && userInfo) {
+      setUserInfo({
+        ...userInfo,
+        image: null,
+        id: userInfo.id,
+      });
+      setImage(null);
       toast.success("Image removed successfully");
     }
   };
@@ -149,7 +158,7 @@ const Profile = () => {
                 >
                   {firstName
                     ? firstName?.split("").shift()
-                    : userInfo?.email?.split("").shift() ?? ""}
+                    : userInfo?.email?.split("").shift()}
                 </div>
               )}
             </Avatar>

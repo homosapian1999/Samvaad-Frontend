@@ -6,7 +6,7 @@ import Chat from "./pages/chat/Chat";
 import Profile from "./pages/profile/Profile";
 import { useAppStore } from "./store/store";
 import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { apiClient } from "./lib/auth-client";
 import { GET_USER_INFO } from "./utils/constants";
 
@@ -34,7 +34,8 @@ const App = () => {
         if (response.status) setUserInfo(data);
       } catch (error) {
         setLoading(false);
-        toast.error("Error while fetching user info. " + error);
+        console.log(error);
+        // toast.error("Error while fetching user info. " + error);
       } finally {
         setLoading(false);
       }

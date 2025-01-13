@@ -1,50 +1,97 @@
-# React + TypeScript + Vite
+# 🌐 **Samvaad**  
+A real-time chat application designed for seamless communication, group conversations, and secure file sharing.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📑 **Table of Contents**  
+- [📖 About](#about)
+- [🎥 Demo Video](#demo-video) 
+- [✨ Features](#features)  
+- [💻 Tech Stack](#tech-stack)  
+- [⚙️ Setup Instructions](#setup-instructions)  
+- [🚀 Usage](#usage)  
+ 
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📖 **About**  
+Samvaad empowers users to engage in real-time individual and group conversations, with secure file-sharing capabilities to enhance communication and collaboration.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+--- 
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+## 🎥 **Demo Video**  
+[Click here to view the demo video](https://www.awesomescreenshot.com/video/35471799?key=f8d15118379295c223b7551769109e78)  
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+---
+
+## ✨ **Features**  
+- 🔴 **Real-Time Messaging:** Instant message updates powered by Socket.io  
+- 👥 **Group Chat:** Engage in conversations with multiple users in a single thread  
+- 📎 **File Sharing:** Share documents, images, and other files seamlessly  
+- 🔐 **User Authentication:** Secure sign-in using JWT-based authentication  
+- 📱 **Responsive UI:** Optimized for desktop and mobile views  
+- 🗂 **Persistent Storage:** Messages and files are securely stored using PostgreSQL and Supabase  
+
+---
+
+## 💻 **Tech Stack**  
+
+### **Frontend:**  
+- ⚛️ React JS  
+- 🟦 TypeScript  
+- 🎨 Shadecn  
+- 🗄️ Zustand  
+- 🔑 JWT for Authentication  
+- 🔁 Socket.io for Real-Time Communication  
+
+### **Backend:**  
+- 🟩 Node.js  
+- ⚡ Express  
+- 🐘 PostgreSQL  
+- 📦 Supabase  
+- 🔑 JWT for Secure Authentication  
+- 🔁 Socket.io for Real-Time Updates  
+
+---
+
+## ⚙️ **Setup Instructions**  
+
+### **Frontend Setup:**  
+1. Clone the repository:  
+   ```bash  
+   git clone <your-repo-url>  
+   cd frontend
+2. Install dependencies
+    ```bash
+    npm install
+    npm start  
+
+
+### **Backend Setup:**  
+1. Clone the repository:  
+   ```bash  
+   git clone <your-repo-url>  
+   cd backend
+2. Install dependencies
+    ```bash
+    npm install
+    npm start
+
+3. Configure environment variables in a .env file:
+    ```bash
+    DATABASE_URL=your_database_url
+    JWT_SECRET=your_secret_key
+    SUPABASE_URL=your_supabase_url
+    SUPABASE_KEY=your_supabase_key
+
+4. Start the server
+     ```bash
+     npm start  
+
+🚀 Usage
+🔐 Sign up or log in to access the chat application.
+👥 Create or join group chats for collaborative communication.
+📎 Share files securely within chat threads.
+🔁 Experience real-time updates as messages and files are exchanged.

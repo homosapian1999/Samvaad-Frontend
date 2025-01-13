@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  baseURL: "https://samvaad-backend.vercel.app",
+  baseURL: "http://localhost:8080",
   withCredentials: true,
 });
 

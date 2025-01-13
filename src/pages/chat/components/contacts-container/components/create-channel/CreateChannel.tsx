@@ -59,7 +59,7 @@ const CreateChannel = () => {
         CREATE_CHANNEL_ROUTE,
         {
           name: channelName,
-          members: searchedContacts.map((contact) => contact.value),
+          members: selectedContacts.map((contact) => contact.value),
         },
         { withCredentials: true }
       );
@@ -67,7 +67,7 @@ const CreateChannel = () => {
         setChannelName("");
         setSelectedContacts([]);
         setNewChannelModal(false);
-        addChannel(response.data.chanel);
+        addChannel(response.data.channel);
       }
     }
   };

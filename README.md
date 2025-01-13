@@ -1,5 +1,5 @@
 # 🌐 **Samvaad**  
-[Backend Repository](https://github.com/homosapian1999/Samvaad-Backend)  
+[Backend Repository For This Application](https://github.com/homosapian1999/Samvaad-Backend)  
 
 
 A real-time chat application designed for seamless communication, group conversations, and secure file sharing.
